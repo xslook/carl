@@ -6,7 +6,7 @@ import (
 
 	"github.com/urfave/cli/v2"
 
-	"carl/module/timestamp"
+	"github.com/xslook/carl/module/timestamp"
 )
 
 func appHandler(c *cli.Context) error {

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"carl/cmd"
+	"github.com/xslook/carl/cmd"
 )
 
 var (

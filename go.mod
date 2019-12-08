@@ -1,4 +1,4 @@
-module carl
+module github.com/xslook/carl
 
 go 1.12
 
