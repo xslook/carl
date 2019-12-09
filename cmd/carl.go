@@ -17,10 +17,10 @@ func appHandler(c *cli.Context) error {
 // Run command
 func Run(ver, time, commit string) error {
 	var app = &cli.App{
-		Name:        "carl",
-		Version:     ver,
-		Description: `Carl is an useful toolbox that contains many tools.`,
-		Action:      appHandler,
+		Name:    "carl",
+		Version: ver,
+		Usage:   "A toolbox for development!",
+		Action:  appHandler,
 	}
 	app.Commands = []*cli.Command{
 		timestamp.Command(),
