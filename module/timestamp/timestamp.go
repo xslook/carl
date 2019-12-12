@@ -13,6 +13,7 @@ import (
 const (
 	flagAllName  = "all"
 	flagZoneName = "zone"
+	flagDiffName = "diff"
 )
 
 const (
@@ -30,16 +31,22 @@ var (
 		Usage:   "The timezone of output time, default local timezone",
 		Aliases: []string{"z"},
 	}
+	flagDiff = &cli.BoolFlag{
+		Name:    flagDiffName,
+		Aliases: []string{"d"},
+		Usage:   "Show the elapsed time until now",
+	}
 )
 
 func Command() *cli.Command {
-	var cmd = &cli.Command{
+	cmd := &cli.Command{
 		Name:    "timestamp",
 		Usage:   "Convert timestamp to time",
 		Aliases: []string{"ts"},
 		Flags: []cli.Flag{
 			flagAll,
 			flagZone,
+			flagDiff,
 		},
 		Action: handle,
 	}
@@ -81,13 +88,18 @@ func parseTimestamp(ts string) (t time.Time, err error) {
 func handle(c *cli.Context) error {
 	args := c.Args()
 	if args.Len() < 1 {
+		t := time.Now().UnixNano()
+		fmt.Printf("%v\n", t)
 		return nil
 	}
 	var zone *time.Location
 	if c.IsSet(flagZoneName) {
 		offset := c.Int(flagZoneName)
+		if offset > 12 || offset < -12 {
+			offset = 0
+		}
 		var label string
-		if offset > 0 {
+		if offset >= 0 {
 			label = fmt.Sprintf("UTC+%d", offset)
 		} else {
 			label = fmt.Sprintf("UTC%d", offset)
@@ -96,6 +108,7 @@ func handle(c *cli.Context) error {
 	} else {
 		zone = time.Local
 	}
+	showDiff := c.IsSet(flagDiffName) && c.Bool(flagDiffName)
 	for _, arg := range args.Slice() {
 		t, err := parseTimestamp(arg)
 		if err != nil {
@@ -104,7 +117,12 @@ func handle(c *cli.Context) error {
 		if zone != time.Local {
 			t = t.In(zone)
 		}
-		fmt.Println(t.Format(defaultFormat))
+		out := t.Format(defaultFormat)
+		if showDiff {
+			diff := time.Now().Sub(t)
+			out = fmt.Sprintf("%s\t%d", out, diff)
+		}
+		fmt.Println(out)
 	}
 	return nil
 }

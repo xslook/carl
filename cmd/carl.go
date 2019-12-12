@@ -6,6 +6,7 @@ import (
 
 	"github.com/urfave/cli/v2"
 
+	"github.com/xslook/carl/module/server"
 	"github.com/xslook/carl/module/timestamp"
 )
 
@@ -24,6 +25,7 @@ func Run(ver, time, commit string) error {
 	}
 	app.Commands = []*cli.Command{
 		timestamp.Command(),
+		server.Command(),
 	}
 	err := app.Run(os.Args)
 	return err
