@@ -1,7 +1,7 @@
-package mjson
+package json
 
 import (
-	"encoding/json"
+	ejson "encoding/json"
 	"fmt"
 	"io/ioutil"
 
@@ -26,6 +26,13 @@ var (
 	}
 )
 
+func isValidJSON(bts []byte) bool {
+	if len(bts) < 2 {
+		return false
+	}
+	return true
+}
+
 func cmdAction(c *cli.Context) error {
 	return nil
 }
@@ -36,11 +43,11 @@ func encodeAction(c *cli.Context) error {
 
 func getFormatJSON(bts []byte) ([]byte, error) {
 	m := make(map[string]interface{}, 0)
-	err := json.Unmarshal(bts, &m)
+	err := ejson.Unmarshal(bts, &m)
 	if err != nil {
 		return nil, err
 	}
-	bytes, err := json.MarshalIndent(m, "", "  ")
+	bytes, err := ejson.MarshalIndent(m, "", "  ")
 	if err != nil {
 		return nil, err
 	}
