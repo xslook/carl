@@ -1,6 +1,9 @@
 package bili
 
-import "testing"
+import (
+	"strconv"
+	"testing"
+)
 
 func TestAvToBv(t *testing.T) {
 	tests := map[int64]string{
@@ -34,6 +37,23 @@ func TestBvToAv(t *testing.T) {
 		}
 		if av != ev {
 			t.Errorf("Transform failed, expect: %d, got: %d", ev, av)
+		}
+	}
+}
+
+func TestVideoStat(t *testing.T) {
+	tests := []string{
+		"BV1qE411s7qT",
+		"92392262",
+	}
+	for _, vid := range tests {
+		st, err := VideoStat(vid)
+		if err != nil {
+			t.Errorf("Get video stat error: %v", err)
+			break
+		}
+		if st.BV != vid && strconv.Itoa(int(st.Aid)) != vid {
+			t.Errorf("Get video stat failed for %s, %d - %s", vid, st.Aid, st.BV)
 		}
 	}
 }
