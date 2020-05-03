@@ -28,6 +28,7 @@ func Run(ver, time, commit string) error {
 		timestamp.Command(),
 		server.Command(),
 		json.Command(),
+		bhdCommand(),
 	}
 	err := app.Run(os.Args)
 	return err
