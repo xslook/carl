@@ -1,4 +1,4 @@
-package timestamp
+package cmd
 
 import (
 	"fmt"
@@ -38,19 +38,16 @@ var (
 	}
 )
 
-func Command() *cli.Command {
-	cmd := &cli.Command{
-		Name:    "timestamp",
-		Usage:   "Convert timestamp to time",
-		Aliases: []string{"ts"},
-		Flags: []cli.Flag{
-			flagAll,
-			flagZone,
-			flagDiff,
-		},
-		Action: handle,
-	}
-	return cmd
+var tsCommand = &cli.Command{
+	Name:    "timestamp",
+	Usage:   "Convert timestamp to time",
+	Aliases: []string{"ts"},
+	Flags: []cli.Flag{
+		flagAll,
+		flagZone,
+		flagDiff,
+	},
+	Action: tsHandler,
 }
 
 // 1575681996,294,000,000
@@ -85,7 +82,7 @@ func parseTimestamp(ts string) (t time.Time, err error) {
 	return
 }
 
-func handle(c *cli.Context) error {
+func tsHandler(c *cli.Context) error {
 	args := c.Args()
 	if args.Len() < 1 {
 		t := time.Now().UnixNano()

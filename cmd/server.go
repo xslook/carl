@@ -1,4 +1,4 @@
-package server
+package cmd
 
 import (
 	"context"
@@ -35,7 +35,7 @@ const (
 	defaultDir  = "."
 )
 
-func actionHandler(c *cli.Context) error {
+func serverHandler(c *cli.Context) error {
 	dir := defaultDir
 	var port uint
 	if c.IsSet(flagDirName) {
@@ -70,15 +70,14 @@ func actionHandler(c *cli.Context) error {
 	return srv.ListenAndServe()
 }
 
-func Command() *cli.Command {
-	cmd := &cli.Command{
+var (
+	srvCommand = &cli.Command{
 		Name:  "server",
 		Usage: "A simple HTTP static file server",
 		Flags: []cli.Flag{
 			flagDir,
 			flagPort,
 		},
-		Action: actionHandler,
+		Action: serverHandler,
 	}
-	return cmd
-}
+)

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/urfave/cli/v2"
-	"github.com/xslook/carl/module/bhd"
+	"github.com/xslook/carl/pkg/bhd"
 )
 
 const (
@@ -73,15 +73,12 @@ func bhdHandler(c *cli.Context) error {
 	return err
 }
 
-func bhdCommand() *cli.Command {
-	cmd := &cli.Command{
-		Name:  "bhd",
-		Usage: "Number conversion",
-		Flags: []cli.Flag{
-			bhdFlagFmtTable,
-			bhdFlagFmtLine,
-		},
-		Action: bhdHandler,
-	}
-	return cmd
+var bhdCommand = &cli.Command{
+	Name:  "bhd",
+	Usage: "Number conversion",
+	Flags: []cli.Flag{
+		bhdFlagFmtTable,
+		bhdFlagFmtLine,
+	},
+	Action: bhdHandler,
 }

@@ -5,10 +5,6 @@ import (
 	"os"
 
 	"github.com/urfave/cli/v2"
-
-	"github.com/xslook/carl/module/json"
-	"github.com/xslook/carl/module/server"
-	"github.com/xslook/carl/module/timestamp"
 )
 
 func appHandler(c *cli.Context) error {
@@ -25,10 +21,10 @@ func Run(ver, time, commit string) error {
 		Action:  appHandler,
 	}
 	app.Commands = []*cli.Command{
-		timestamp.Command(),
-		server.Command(),
-		json.Command(),
-		bhdCommand(),
+		tsCommand,
+		srvCommand,
+		jsonCommand,
+		bhdCommand,
 	}
 	err := app.Run(os.Args)
 	return err

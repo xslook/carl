@@ -1,7 +1,7 @@
-package json
+package cmd
 
 import (
-	ejson "encoding/json"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 
@@ -43,11 +43,11 @@ func encodeAction(c *cli.Context) error {
 
 func getFormatJSON(bts []byte) ([]byte, error) {
 	m := make(map[string]interface{}, 0)
-	err := ejson.Unmarshal(bts, &m)
+	err := json.Unmarshal(bts, &m)
 	if err != nil {
 		return nil, err
 	}
-	bytes, err := ejson.MarshalIndent(m, "", "  ")
+	bytes, err := json.MarshalIndent(m, "", "  ")
 	if err != nil {
 		return nil, err
 	}
@@ -122,10 +122,8 @@ var (
 		},
 		Action: verifyAction,
 	}
-)
 
-func Command() *cli.Command {
-	cmd := &cli.Command{
+	jsonCommand = &cli.Command{
 		Name:  "json",
 		Usage: "JSON toolbox",
 		Flags: []cli.Flag{},
@@ -136,5 +134,4 @@ func Command() *cli.Command {
 		},
 		Action: cmdAction,
 	}
-	return cmd
-}
+)
